@@ -9,6 +9,7 @@ app.get('/leetcode/:username', async (req, res) => {
     const url = `https://alfa-leetcode-api.onrender.com/${username}/solved`;  // Replace with your actual API endpoint
 
     try {
+        // Fetch the LeetCode data
         const response = await axios.get(url);
         const data = response.data;
 
@@ -16,48 +17,50 @@ app.get('/leetcode/:username', async (req, res) => {
         const medium = data.mediumSolved || 0;
         const hard = data.hardSolved || 0;
 
-        const maxValue = Math.max(easy, medium, hard, 1);
-        const easyHeight = (easy / maxValue) * 200;  // Adjusted to make the SVG smaller
-        const mediumHeight = (medium / maxValue) * 200;
-        const hardHeight = (hard / maxValue) * 200;
+        // Fetch additional data from the username API
+        const userInfoUrl = `https://alfa-leetcode-api.onrender.com/${username}`;
+        const userInfoResponse = await axios.get(userInfoUrl);
+        const userInfo = userInfoResponse.data;
+
+        const userDisplayName = userInfo.username || username;
 
         const svg = `
-        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
             <!-- Background -->
-            <rect width="100%" height="100%" fill="#f0f0f0"/>
+            <rect width="100%" height="100%" fill="#1a1a1a" rx="15" ry="15"/>
 
-            <!-- Bars -->
-            <rect x="60" y="${300 - easyHeight}" width="60" height="${easyHeight}" fill="green" class="bar">
-                <title>Easy: ${easy}</title>
-            </rect>
-            <rect x="170" y="${300 - mediumHeight}" width="60" height="${mediumHeight}" fill="orange" class="bar">
-                <title>Medium: ${medium}</title>
-            </rect>
-            <rect x="280" y="${300 - hardHeight}" width="60" height="${hardHeight}" fill="red" class="bar">
-                <title>Hard: ${hard}</title>
-            </rect>
+            <!-- Username -->
+            <text x="50%" y="30" font-size="24" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif">
+                ${userDisplayName}'s LeetCode Stats
+            </text>
 
-            <!-- Labels -->
-            <text x="90" y="350" font-size="18" fill="black" text-anchor="middle">Easy</text>
-            <text x="200" y="350" font-size="18" fill="black" text-anchor="middle">Medium</text>
-            <text x="310" y="350" font-size="18" fill="black" text-anchor="middle">Hard</text>
+            <!-- Text -->
+            <text x="50%" y="90" font-size="20" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif">
+                Easy: ${easy}
+            </text>
+            <text x="50%" y="120" font-size="20" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif">
+                Medium: ${medium}
+            </text>
+            <text x="50%" y="150" font-size="20" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif">
+                Hard: ${hard}
+            </text>
 
-            <!-- Count Labels -->
-            <text x="90" y="${300 - easyHeight - 10}" font-size="16" fill="black" text-anchor="middle">${easy}</text>
-            <text x="200" y="${300 - mediumHeight - 10}" font-size="16" fill="black" text-anchor="middle">${medium}</text>
-            <text x="310" y="${300 - hardHeight - 10}" font-size="16" fill="black" text-anchor="middle">${hard}</text>
+            <!-- 3D Effect -->
+            <filter id="f1" x="0" y="0">
+              <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
+              <feGaussianBlur result="blurOut" in="offOut" stdDeviation="3" />
+              <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+            </filter>
 
-            <!-- Animation -->
-            <style>
-                .bar {
-                    animation: grow 1s ease-out forwards;
-                }
-
-                @keyframes grow {
-                    from { height: 0; }
-                    to { height: 100%; }
-                }
-            </style>
+            <text x="50%" y="90" font-size="20" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif" filter="url(#f1)">
+                Easy: ${easy}
+            </text>
+            <text x="50%" y="120" font-size="20" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif" filter="url(#f1)">
+                Medium: ${medium}
+            </text>
+            <text x="50%" y="150" font-size="20" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif" filter="url(#f1)">
+                Hard: ${hard}
+            </text>
         </svg>`;
 
         res.setHeader('Content-Type', 'image/svg+xml');
