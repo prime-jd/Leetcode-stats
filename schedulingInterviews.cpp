@@ -15,7 +15,6 @@ class Attendee{
         this.id = id;
     }
 };
-
 class Room{
     int id;
     public:
