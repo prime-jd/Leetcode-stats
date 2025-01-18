@@ -4,6 +4,78 @@
 #include <string>
 using namespace std;
 
+// class Schedule{
+//     public:
+//     int candidates;
+//     string interviewer;
+//     string rooms;
+//     string TimeSlot;
+// };
+// class InterviewSchedule{
+//     public:
+//     vector<Schedule>schedule;
+//     queue<int>candidates;
+//     vector<string>rooms;
+//     vector<string>interviewers;
+//     vector<string>timeSlots = {"9-11","11-1","3-5"};
+    
+//     InterviewSchedule(vector<string>interviewers, int roomsNo, int candidatesNo){
+//         this->interviewers = interviewers;
+//         for(int i = 1; i<=candidatesNo; i++){
+//             candidates.push(i);
+//         }
+
+//         for(int i = 1; i<=roomsNo; i++){
+//             rooms.push_back("R"+ to_string(i));
+//         }
+//     }
+
+
+//     int currentInterviewer = 0;
+//     int currentRoom = 0;
+//     int currentSlot = 0;
+//     int x = min(interviewers.size(), rooms.size());
+//     void interviewScheule(){
+//         while(!candidates.empty() && currentSlot<=timeSlots.size()){
+//             int candidate = candidates.front();
+//             candidates.pop();
+
+//             schedule.push_back({candidate, interviewers[currentInterviewer], rooms[currentRoom], timeSlots[currentSlot]});
+//             currentInterviewer = (currentInterviewer + 1)%x;
+//             currentRoom = (currentRoom+1)%x;
+
+//             if(currentInterviewer==0 || currentRoom ==0){
+//                 currentSlot++;
+//             }
+//         }
+//         if(!candidates.empty()){
+//             cout<<"Some Interviewers not got chance to interview" <<candidates.size()<<endl;
+//         }
+//     }
+//     void displaySchedule() {
+//         cout << "Attendee\tInterviewer\tRoom\tSlot" << endl;
+//         for (const auto &slot : schedule) {
+//             cout << slot.candidates << "\t\t" << slot.interviewer << "\t\t" << slot.rooms << "\t" << slot.TimeSlot << endl;
+//         }
+//     }
+
+// };
+
+// int main(){
+//     int rooms = 3;
+//     int candidates = 5;
+//     vector<string>interviewers = {"A", "B"};
+    
+//     InterviewSchedule* schedule = new InterviewSchedule(interviewers, rooms, candidates);
+//     schedule->interviewScheule();
+//     schedule->displaySchedule();
+
+//     return 0;
+// }
+
+
+
+
 class InterviewSchedule {
 private:
     int attendees;
@@ -78,3 +150,6 @@ int main() {
     
     return 0;
 }
+
+
+
